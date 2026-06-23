@@ -1,3 +1,4 @@
+import 'package:flutter_assignment/data/product_data.dart';
 import 'package:get/get.dart';
 
 class SingleScanController extends GetxController {
@@ -8,9 +9,14 @@ class SingleScanController extends GetxController {
   void loadProduct(String scannedCode) {
     barcode.value = scannedCode;
 
-    /// Dummy Product
-    productName.value = "Sample Product";
+    final product = products.firstWhereOrNull((e) => e.barcode == scannedCode);
 
-    price.value = 99.00;
+    if (product != null) {
+      productName.value = product.name;
+      price.value = product.price;
+    } else {
+      productName.value = "Product Not Found";
+      price.value = 0;
+    }
   }
 }

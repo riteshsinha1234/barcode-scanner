@@ -22,7 +22,7 @@ class HomeView extends StatelessWidget {
               subtitle: "Scan one barcode and view bill",
               icon: Icons.qr_code_scanner,
               onTap: () {
-                Get.to(() => const SingleScanView());
+                Get.to(() => SingleScanView());
               },
             ),
             gapH(20),
@@ -31,7 +31,7 @@ class HomeView extends StatelessWidget {
               subtitle: "Scan multiple products and create bill",
               icon: Icons.shopping_cart,
               onTap: () {
-                Get.to(() => const MultiScanView());
+                Get.to(() => MultiScanView());
               },
             ),
           ],
