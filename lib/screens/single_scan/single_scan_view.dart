@@ -7,12 +7,11 @@ import 'package:flutter_assignment/screens/single_scan/single_scan_controller.da
 import 'package:get/get.dart';
 
 class SingleScanView extends StatelessWidget {
-  const SingleScanView({super.key});
+  SingleScanView({super.key});
+  final controller = Get.put(SingleScanController());
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(SingleScanController());
-
     return Scaffold(
       appBar: customAppBar(iconTeal, white, "Single Product Scan"),
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_assignment/screens/home/home_view.dart';
+import 'package:flutter_assignment/screens/multi_scan/multi_scan_view.dart';
+import 'package:flutter_assignment/screens/single_scan/single_scan_view.dart';
 import 'package:flutter_assignment/screens/splash/splash_view.dart';
 import 'package:get/get.dart';
 
@@ -24,6 +26,8 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(name: '/', page: () => SplashView()),
         GetPage(name: '/home', page: () => HomeView()),
+        GetPage(name: '/single scan', page: () => SingleScanView()),
+        GetPage(name: '/multi scan', page: () => MultiScanView()),
       ],
     );
   }
