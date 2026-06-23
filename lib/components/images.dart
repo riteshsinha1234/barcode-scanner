@@ -4,7 +4,7 @@ class ImagePath {
   static String png = "assets/images/png/";
 
   // svg
-  static String logo = "${svg}logo.png";
+  static String logo = "${png}logo.png";
   static String emptysvg = "${svg}empty-box.png";
 
   //png
