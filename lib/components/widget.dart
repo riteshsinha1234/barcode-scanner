@@ -98,9 +98,9 @@ Widget customCard({
       child: Row(
         children: [
           CircleAvatar(
-            radius: 28,
+            radius: 24,
             backgroundColor: grn,
-            child: Icon(icon, color: white, size: 28),
+            child: Icon(icon, color: white, size: 24),
           ),
 
           gapW(20),
@@ -109,18 +109,17 @@ Widget customCard({
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                customTxt(title, 18, black, FontWeight.w700),
-
+                customTxt(title, 16, black, FontWeight.w700),
                 gapH(5),
                 customTxt(subtitle, 14, gry99, FontWeight.w500),
               ],
             ),
           ),
-
+          gapW(20),
           const Icon(
             Icons.arrow_forward_ios,
             size: 18,
-            color: laserRed,
+            color: iconTeal,
             fontWeight: FontWeight.bold,
           ),
         ],

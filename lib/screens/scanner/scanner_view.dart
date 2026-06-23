@@ -30,20 +30,6 @@ class ScannerView extends StatelessWidget {
 
       body: Stack(
         children: [
-          Obx(
-            () => controller.startScanning.value
-                ? MobileScanner(
-                    onDetect: (capture) {
-                      final barcode = capture.barcodes.first;
-
-                      if (barcode.rawValue != null) {
-                        controller.onBarcodeDetected(barcode.rawValue!);
-                      }
-                    },
-                  )
-                : Container(color: phoneGrey),
-          ),
-
           CustomBody(
             child: Column(
               children: [

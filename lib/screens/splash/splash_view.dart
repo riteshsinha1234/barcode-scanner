@@ -27,7 +27,7 @@ class SplashView extends StatelessWidget {
 
                 child: CircleAvatar(
                   radius: 80,
-
+                  backgroundColor: Colors.transparent,
                   child: Image.asset(ImagePath.logo),
                 ),
               ),
@@ -37,11 +37,12 @@ class SplashView extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 40),
-                child: customTxt(
-                  "Welcome to Barcode Scanner",
-                  25,
+                child: customParaTxt(
+                  "Welcome to \nBarcode Scanner",
+                  18,
                   sariBlue,
                   FontWeight.w700,
+                  TextAlign.center,
                 ),
               ),
             ),
