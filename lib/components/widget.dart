@@ -34,45 +34,98 @@ MaterialButton customButton(
   );
 }
 
-//Custom Body
-
 class CustomBody extends StatelessWidget {
   final Widget child;
-  final Color backgroundColor;
   final Widget? floatingWidget;
-  final EdgeInsetsGeometry? padding;
-  final Alignment alignment;
 
+  final Alignment alignment;
   const CustomBody({
     super.key,
     required this.child,
-    this.backgroundColor = Colors.white,
     this.floatingWidget,
-    this.padding,
     this.alignment = Alignment.center,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      height: double.infinity,
-      color: backgroundColor,
-      child: Stack(
-        children: [
-          Align(
-            alignment: alignment,
-            child: Padding(
-              padding: padding ?? const EdgeInsets.all(16),
-              child: child,
-            ),
-          ),
+      width: screenWidth(context),
+      height: screenHeight(context),
+      color: phoneGrey,
 
-          if (floatingWidget != null) floatingWidget!,
-        ],
+      child: SafeArea(
+        child: Stack(
+          children: [
+            Align(
+              alignment: alignment,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  left: 20,
+                  top: 30,
+                  right: 20,
+                  bottom: 10,
+                ),
+                child: child,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
+}
+
+//Home Card
+Widget customCard({
+  required String title,
+  required String subtitle,
+  required IconData icon,
+  required VoidCallback onTap,
+}) {
+  return GestureDetector(
+    onTap: onTap,
+    child: Container(
+      padding: const EdgeInsets.fromLTRB(20, 30, 20, 30),
+      decoration: BoxDecoration(
+        color: white,
+        borderRadius: BorderRadius.circular(18),
+
+        boxShadow: const [
+          BoxShadow(blurRadius: 8, offset: Offset(0, 2), color: Colors.black12),
+        ],
+      ),
+
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 24,
+            backgroundColor: grn,
+            child: Icon(icon, color: white, size: 24),
+          ),
+
+          gapW(20),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                customTxt(title, 16, black, FontWeight.w700),
+                gapH(5),
+                customTxt(subtitle, 14, gry99, FontWeight.w500),
+              ],
+            ),
+          ),
+          gapW(20),
+          const Icon(
+            Icons.arrow_forward_ios,
+            size: 18,
+            color: iconTeal,
+            fontWeight: FontWeight.bold,
+          ),
+        ],
+      ),
+    ),
+  );
 }
 
 // //Authentication =========================>>
@@ -234,7 +287,7 @@ AppBar customAppBar(Color bgclr, textclr, String title, {Widget? actionIcon}) {
     title: customTxt(title, 20, textclr, FontWeight.w600),
     centerTitle: true,
     automaticallyImplyLeading: false,
-    actions: [if (actionIcon != null) actionIcon],
+    actions: [?actionIcon],
   );
 }
 
