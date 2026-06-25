@@ -4,10 +4,12 @@ const white = Color(0xFFFFFFFF);
 const black = Color(0xFF1A1A1A);
 
 /// Primary Brand Color (store background)
+const blck12 = Color(0x1F000000);
 const grn = Color(0xFF23B429);
-const skinTone = Color(0xFFE5A67C); // Warm Indian tan skin tone
+const grnshad = Color(0xFFE8F5E9);
+const skinTone = Color(0xFFE5A67C);
 const iconTeal = Color(0xFF115E67);
-const gry20per = Color(0x33C4C4C4); //gery 20%
+const gry20per = Color(0x33C4C4C4);
 const gry99 = Color(0xFF999999);
 const gry9D = Color(0xFF9D9D9D);
 

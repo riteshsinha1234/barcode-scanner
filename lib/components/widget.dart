@@ -102,7 +102,7 @@ Widget customCard({
         borderRadius: BorderRadius.circular(18),
 
         boxShadow: const [
-          BoxShadow(blurRadius: 8, offset: Offset(0, 2), color: Colors.black12),
+          BoxShadow(blurRadius: 8, offset: Offset(0, 2), color: blck12),
         ],
       ),
 
@@ -149,6 +149,7 @@ Widget customTextField(
   TextEditingController? controller,
   String? Function(String?)? validator,
   TextInputType keyboardType = TextInputType.text,
+  String? prefixText,
 }) {
   return SizedBox(
     height: 50,
@@ -164,7 +165,8 @@ Widget customTextField(
       decoration: InputDecoration(
         filled: true,
         fillColor: phoneGrey,
-        contentPadding: const EdgeInsets.only(left: 12),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+
         hintText: txt,
         hintStyle: TextStyle(
           color: black,
@@ -172,10 +174,22 @@ Widget customTextField(
           fontWeight: FontWeight.w300,
           fontFamily: "Outfit",
         ),
+
+        // 🔥 THIS IS THE FIX
+        prefixIcon: prefixText != null
+            ? Padding(
+                padding: const EdgeInsets.only(left: 12, top: 2.5),
+                child: customTxt(prefixText, 16, iconTeal, FontWeight.w700),
+              )
+            : null,
+
+        prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+
         border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
           borderSide: BorderSide(width: 1, color: iconTeal),
         ),
+
         enabledBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
           borderSide: BorderSide(width: 1, color: iconTeal),
@@ -195,7 +209,7 @@ class ProductDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
           color: white,
           borderRadius: BorderRadius.circular(16),
@@ -228,9 +242,13 @@ class ProductDialog extends StatelessWidget {
                           itemBuilder: (context, index) {
                             final product = controller.products[index];
 
-                            return Card(
-                              color: white,
+                            return Container(
                               margin: const EdgeInsets.only(bottom: 10),
+                              decoration: BoxDecoration(
+                                color: grnshad,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(color: grn, width: 1.5),
+                              ),
                               child: Padding(
                                 padding: const EdgeInsets.all(12),
                                 child: Column(
@@ -268,10 +286,6 @@ class ProductDialog extends StatelessWidget {
                                         FontWeight.w400,
                                       ),
                                     ),
-
-                                    gapH(10),
-
-                                    const Divider(height: 1),
 
                                     gapH(8),
 
@@ -324,6 +338,7 @@ class ProductDialog extends StatelessWidget {
                                 ),
                               ),
                             );
+                            //
                           },
                         ),
                       ),
