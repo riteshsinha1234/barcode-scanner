@@ -11,7 +11,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(grn, white, 'Barcode Home'),
+      appBar: customAppBar(iconTeal, white, 'Barcode Home'),
 
       body: CustomBody(
         child: Column(
