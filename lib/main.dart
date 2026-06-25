@@ -1,4 +1,6 @@
+import 'package:barcode_scanner/models/cart_item_model.dart';
 import 'package:barcode_scanner/models/product_model.dart';
+import 'package:barcode_scanner/models/sales_model.dart';
 import 'package:barcode_scanner/screens/home/home_view.dart';
 import 'package:barcode_scanner/screens/multi_scan/multi_scan_view.dart';
 import 'package:barcode_scanner/screens/single_scan/single_scan_view.dart';
@@ -13,8 +15,12 @@ void main() async {
   await Hive.initFlutter();
 
   Hive.registerAdapter(ProductModelAdapter());
+  Hive.registerAdapter(CartItemModelAdapter());
+  Hive.registerAdapter(SalesModelAdapter());
 
   await Hive.openBox<ProductModel>('products');
+  await Hive.openBox<CartItemModel>('cart');
+  await Hive.openBox<SalesModel>('sales');
 
   runApp(const MyApp());
 }

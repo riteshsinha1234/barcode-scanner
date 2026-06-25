@@ -3,6 +3,7 @@ import 'package:barcode_scanner/components/texts.dart';
 import 'package:barcode_scanner/components/widget.dart';
 import 'package:barcode_scanner/screens/multi_scan/multi_scan_view.dart';
 import 'package:barcode_scanner/screens/product_management/product_manag_view.dart';
+import 'package:barcode_scanner/screens/sales_history/sales_history_view.dart';
 import 'package:barcode_scanner/screens/single_scan/single_scan_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,7 +14,17 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(iconTeal, white, 'Barcode Home'),
+      appBar: customAppBar(
+        iconTeal,
+        white,
+        'Barcode Home',
+        actionIcon: GestureDetector(
+          onTap: () {
+            Get.to(() => SalesHistoryView());
+          },
+          child: Icon(Icons.list_alt_outlined, color: white),
+        ),
+      ),
 
       body: CustomBody(
         floatingWidget: customButton(
