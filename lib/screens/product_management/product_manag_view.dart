@@ -16,16 +16,47 @@ class ProductManagementView extends StatelessWidget {
       appBar: customAppBar(iconTeal, white, "Product Management"),
 
       body: CustomBody(
-        floatingWidget: customButton(
-          48,
-          screenWidth(context),
-          grn,
-          white,
-          40,
-          () {
-            controller.saveProduct();
-          },
-          Center(child: customTxt("Save Product", 16, white, FontWeight.w600)),
+        floatingWidget: Column(
+          children: [
+            Obx(
+              () => customButton(
+                48,
+                screenWidth(context),
+                grn,
+                white,
+                40,
+                () {
+                  if (controller.isEditing.value) {
+                    controller.updateProduct();
+                  } else {
+                    controller.saveProduct();
+                  }
+                },
+                Center(
+                  child: customTxt(
+                    controller.isEditing.value
+                        ? "Update Product"
+                        : "Save Product",
+                    16,
+                    white,
+                    FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+            gapH(20),
+            GestureDetector(
+              onTap: () {
+                Get.dialog(ProductDialog());
+              },
+              child: customTxt(
+                "See All Product",
+                16,
+                iconTeal,
+                FontWeight.w600,
+              ),
+            ),
+          ],
         ),
         child: Column(
           children: [
@@ -38,13 +69,21 @@ class ProductManagementView extends StatelessWidget {
             ),
 
             gapH(15),
-            customTextField(
-              "Product Price",
-              screenWidth(context),
-              16,
-              (value) {},
-              controller: controller.priceController,
-              keyboardType: TextInputType.number,
+            Row(
+              children: [
+                customTxt("₹", 20, iconTeal, FontWeight.w700),
+                gapW(5),
+                Expanded(
+                  child: customTextField(
+                    "Product Price",
+                    screenWidth(context),
+                    16,
+                    (value) {},
+                    controller: controller.priceController,
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+              ],
             ),
             gapH(15),
             customTextField(
