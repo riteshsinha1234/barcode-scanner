@@ -13,7 +13,17 @@ class ProductManagementView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(iconTeal, white, "Product Management"),
+      appBar: customAppBar(
+        iconTeal,
+        white,
+        "Product Management",
+        actionIcon: GestureDetector(
+          onTap: () {
+            Get.dialog(ProductDialog());
+          },
+          child: Icon(Icons.integration_instructions, color: white),
+        ),
+      ),
 
       body: CustomBody(
         floatingWidget: Column(
@@ -42,18 +52,6 @@ class ProductManagementView extends StatelessWidget {
                     FontWeight.w600,
                   ),
                 ),
-              ),
-            ),
-            gapH(20),
-            GestureDetector(
-              onTap: () {
-                Get.dialog(ProductDialog());
-              },
-              child: customTxt(
-                "See All Product",
-                16,
-                iconTeal,
-                FontWeight.w600,
               ),
             ),
           ],
