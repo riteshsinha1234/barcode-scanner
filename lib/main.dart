@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       title: 'Barcode Scanner',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true,
       ),
       initialRoute: '/',

@@ -1,6 +1,8 @@
 import 'package:barcode_scanner/components/colors.dart';
+import 'package:barcode_scanner/components/texts.dart';
 import 'package:barcode_scanner/components/widget.dart';
 import 'package:barcode_scanner/screens/multi_scan/multi_scan_view.dart';
+import 'package:barcode_scanner/screens/product_management/product_manag_view.dart';
 import 'package:barcode_scanner/screens/single_scan/single_scan_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,6 +16,17 @@ class HomeView extends StatelessWidget {
       appBar: customAppBar(iconTeal, white, 'Barcode Home'),
 
       body: CustomBody(
+        floatingWidget: customButton(
+          48.0,
+          screenWidth(context),
+          grn,
+          white,
+          40,
+          () {
+            Get.to(() => ProductManagementView());
+          },
+          customTxt("Add Product", 16, white, FontWeight.w600),
+        ),
         child: Column(
           children: [
             gapH(20),

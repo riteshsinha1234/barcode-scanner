@@ -138,49 +138,49 @@ Widget customCard({
 
 // //Authentication =========================>>
 
-// Widget customNmEmlField(
-//   String txt,
-//   double wt,
-//   double txtsz,
-//   Function(String) onChanged, {
-//   TextEditingController? controller,
-//   String? Function(String?)? validator,
-//   bool isPassword = false,
-// }) {
-//   return SizedBox(
-//     height: 50,
-//     width: wt,
-//     child: TextFormField(
-//       controller: controller,
-//       cursorHeight: 15,
-//       onChanged: onChanged,
-//       validator: validator,
-//       textInputAction: TextInputAction.next,
-//       obscureText: isPassword,
-//       style: const TextStyle(color: navyBlu),
-//       decoration: InputDecoration(
-//         filled: true,
-//         fillColor: white,
-//         contentPadding: const EdgeInsets.only(left: 12),
-//         hintText: txt,
-//         hintStyle: TextStyle(
-//           color: navyBlu,
-//           fontSize: txtsz,
-//           fontWeight: FontWeight.w300,
-//           fontFamily: "Outfit",
-//         ),
-//         border: const OutlineInputBorder(
-//           borderRadius: BorderRadius.all(Radius.circular(10)),
-//           borderSide: BorderSide(width: 1, color: navyBlu),
-//         ),
-//         enabledBorder: const OutlineInputBorder(
-//           borderRadius: BorderRadius.all(Radius.circular(10)),
-//           borderSide: BorderSide(width: 1, color: navyBlu),
-//         ),
-//       ),
-//     ),
-//   );
-// }
+Widget customTextField(
+  String txt,
+  double wt,
+  double txtsz,
+  Function(String) onChanged, {
+  TextEditingController? controller,
+  String? Function(String?)? validator,
+  TextInputType keyboardType = TextInputType.text,
+}) {
+  return SizedBox(
+    height: 50,
+    width: wt,
+    child: TextFormField(
+      controller: controller,
+      cursorHeight: 15,
+      onChanged: onChanged,
+      validator: validator,
+      keyboardType: keyboardType,
+      textInputAction: TextInputAction.next,
+      style: const TextStyle(color: black),
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: phoneGrey,
+        contentPadding: const EdgeInsets.only(left: 12),
+        hintText: txt,
+        hintStyle: TextStyle(
+          color: black,
+          fontSize: txtsz,
+          fontWeight: FontWeight.w300,
+          fontFamily: "Outfit",
+        ),
+        border: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderSide: BorderSide(width: 1, color: iconTeal),
+        ),
+        enabledBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderSide: BorderSide(width: 1, color: iconTeal),
+        ),
+      ),
+    ),
+  );
+}
 
 // Widget customPassField(
 //   String txt,

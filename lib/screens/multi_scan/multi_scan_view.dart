@@ -2,13 +2,11 @@ import 'package:barcode_scanner/components/colors.dart';
 import 'package:barcode_scanner/components/texts.dart';
 import 'package:barcode_scanner/components/widget.dart';
 import 'package:barcode_scanner/data/product_data.dart';
-import 'package:barcode_scanner/models/product_model.dart';
 import 'package:barcode_scanner/screens/bill/bill_view.dart';
 import 'package:barcode_scanner/screens/multi_scan/multi_scan_controller.dart';
 import 'package:barcode_scanner/screens/scanner/scanner_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive_flutter/adapters.dart';
 
 class MultiScanView extends StatelessWidget {
   MultiScanView({super.key});
@@ -36,7 +34,7 @@ class MultiScanView extends StatelessWidget {
                 if (result != null) {
                   // ignore: avoid_print
                   print("Scanned Barcode: ${result.toString()}");
-                  final box = Hive.box<ProductModel>('products');
+
                   try {
                     final product = products.firstWhere(
                       (item) => item.barcode.trim() == scannedCode,

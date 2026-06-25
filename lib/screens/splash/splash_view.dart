@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:barcode_scanner/components/colors.dart';
 import 'package:barcode_scanner/components/images.dart';
 import 'package:barcode_scanner/components/texts.dart';
@@ -19,20 +21,49 @@ class SplashView extends StatelessWidget {
           children: [
             Center(
               child: AnimatedBuilder(
-                animation: controller.scaleAnimation,
-                builder: (context, child) => Transform.scale(
-                  scale: controller.scaleAnimation.value,
-                  child: child,
-                ),
-
-                child: CircleAvatar(
-                  radius: 80,
-                  backgroundColor: Colors.transparent,
-                  child: Image.asset(ImagePath.logo),
-                ),
+                animation: controller.rotationController,
+                builder: (context, child) {
+                  return SizedBox(
+                    width: 170,
+                    height: 170,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        // Rotating Light
+                        Transform.rotate(
+                          angle:
+                              controller.rotationAnimation.value * 2 * pi * 12,
+                          child: Align(
+                            alignment: Alignment.topCenter,
+                            child: Container(
+                              width: 25,
+                              height: 2.5,
+                              decoration: BoxDecoration(
+                                color: sariBlue,
+                                borderRadius: BorderRadius.circular(20),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: sariBlue.withOpacity(0.4),
+                                    blurRadius: 5,
+                                    spreadRadius: 5,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        // Logo
+                        CircleAvatar(
+                          radius: 80,
+                          backgroundColor: Colors.transparent,
+                          child: Image.asset(ImagePath.logo),
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
             ),
-
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
