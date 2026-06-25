@@ -3,40 +3,35 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SplashController extends GetxController with GetTickerProviderStateMixin {
-  late AnimationController animationController;
-  late Animation<double> scaleAnimation;
+  late AnimationController rotationController;
+  late Animation<double> rotationAnimation;
 
   @override
   void onInit() {
     super.onInit();
 
-    animationController = AnimationController(
+    rotationController = AnimationController(
       vsync: this,
-      duration: const Duration(
-        seconds: 2,
-      ), // Reduced slightly for a snappier feel
+      duration: const Duration(seconds: 4),
     );
 
-    scaleAnimation = Tween<double>(begin: 0.0, end: 1.2).animate(
-      CurvedAnimation(parent: animationController, curve: Curves.easeOutBack),
+    rotationAnimation = CurvedAnimation(
+      parent: rotationController,
+      curve: Curves.easeInExpo,
     );
 
-    animationController.forward();
+    rotationController.forward();
 
-    animationController.addStatusListener((status) async {
+    rotationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        await Future.delayed(const Duration(seconds: 1));
-
-        Get.offAll(
-          () => HomeView(), // Navigate to HomeView after the splash animation),
-        );
+        Get.offAll(() => HomeView());
       }
     });
   }
 
   @override
   void onClose() {
-    animationController.dispose();
+    rotationController.dispose();
     super.onClose();
   }
 }
