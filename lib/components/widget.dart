@@ -1,6 +1,10 @@
 import 'package:barcode_scanner/components/colors.dart';
 import 'package:barcode_scanner/components/texts.dart';
+import 'package:barcode_scanner/screens/product_management/product_manage_controller.dart'
+    show ProductManagementController;
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
 //screen size
 SizedBox gapH(double value) => SizedBox(height: value);
@@ -180,6 +184,171 @@ Widget customTextField(
       ),
     ),
   );
+}
+
+class ProductDialog extends StatelessWidget {
+  ProductDialog({super.key});
+
+  final ProductManagementController controller =
+      Get.find<ProductManagementController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: white,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Obx(
+          () => controller.products.isEmpty
+              ? SizedBox(
+                  height: 120,
+                  child: Center(
+                    child: customTxt(
+                      "No Products Found",
+                      16,
+                      black,
+                      FontWeight.w600,
+                    ),
+                  ),
+                )
+              : SizedBox(
+                  height: 400,
+                  width: double.maxFinite,
+                  child: Column(
+                    children: [
+                      customTxt("Saved Products", 18, black, FontWeight.w700),
+
+                      gapH(15),
+
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: controller.products.length,
+                          itemBuilder: (context, index) {
+                            final product = controller.products[index];
+
+                            return Card(
+                              color: white,
+                              margin: const EdgeInsets.only(bottom: 10),
+                              child: Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: customTxt(
+                                            product.name,
+                                            16,
+                                            black,
+                                            FontWeight.w600,
+                                          ),
+                                        ),
+
+                                        customTxt(
+                                          "₹${product.price}",
+                                          16,
+                                          grn,
+                                          FontWeight.w700,
+                                        ),
+                                      ],
+                                    ),
+
+                                    gapH(5),
+
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: customTxt(
+                                        product.barcode,
+                                        14,
+                                        black,
+                                        FontWeight.w400,
+                                      ),
+                                    ),
+
+                                    gapH(10),
+
+                                    const Divider(height: 1),
+
+                                    gapH(8),
+
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        TextButton.icon(
+                                          onPressed: () {
+                                            controller.editProduct(product);
+                                          },
+                                          icon: const Icon(
+                                            Icons.edit,
+                                            color: iconTeal,
+                                          ),
+                                          label: const Text(
+                                            "Edit",
+                                            style: TextStyle(color: iconTeal),
+                                          ),
+                                        ),
+
+                                        TextButton.icon(
+                                          onPressed: () {
+                                            Get.defaultDialog(
+                                              title: "Delete Product",
+                                              middleText: "Are you sure?",
+                                              textConfirm: "Delete",
+                                              textCancel: "Cancel",
+                                              confirmTextColor: white,
+                                              onConfirm: () {
+                                                controller.deleteProduct(
+                                                  product.barcode,
+                                                );
+                                                Get.back();
+                                              },
+                                            );
+                                          },
+                                          icon: const Icon(
+                                            Icons.delete,
+                                            color: laserRed,
+                                          ),
+                                          label: const Text(
+                                            "Delete",
+                                            style: TextStyle(color: laserRed),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+
+                      gapH(10),
+
+                      customButton(
+                        45,
+                        double.infinity,
+                        laserRed,
+                        white,
+                        12,
+                        () => Get.back(),
+                        Center(
+                          child: customTxt("Close", 14, white, FontWeight.w600),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+        ),
+      ),
+    );
+  }
 }
 
 // Widget customPassField(
