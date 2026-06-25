@@ -37,8 +37,8 @@ MaterialButton customButton(
 class CustomBody extends StatelessWidget {
   final Widget child;
   final Widget? floatingWidget;
-
   final Alignment alignment;
+
   const CustomBody({
     super.key,
     required this.child,
@@ -68,6 +68,14 @@ class CustomBody extends StatelessWidget {
                 child: child,
               ),
             ),
+
+            if (floatingWidget != null)
+              Positioned(
+                left: 20,
+                right: 20,
+                bottom: 20,
+                child: floatingWidget!,
+              ),
           ],
         ),
       ),
@@ -287,7 +295,7 @@ AppBar customAppBar(Color bgclr, textclr, String title, {Widget? actionIcon}) {
     title: customTxt(title, 20, textclr, FontWeight.w600),
     centerTitle: true,
     automaticallyImplyLeading: false,
-    actions: [?actionIcon],
+    actions: actionIcon != null ? [actionIcon] : [],
   );
 }
 
