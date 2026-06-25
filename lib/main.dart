@@ -1,8 +1,8 @@
+import 'package:barcode_scanner/screens/home/home_view.dart';
+import 'package:barcode_scanner/screens/multi_scan/multi_scan_view.dart';
+import 'package:barcode_scanner/screens/single_scan/single_scan_view.dart';
+import 'package:barcode_scanner/screens/splash/splash_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_assignment/screens/home/home_view.dart';
-import 'package:flutter_assignment/screens/multi_scan/multi_scan_view.dart';
-import 'package:flutter_assignment/screens/single_scan/single_scan_view.dart';
-import 'package:flutter_assignment/screens/splash/splash_view.dart';
 import 'package:get/get.dart';
 
 void main() {

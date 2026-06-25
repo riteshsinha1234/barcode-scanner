@@ -1,5 +1,5 @@
-import 'package:flutter_assignment/models/cart_item_model.dart';
-import 'package:flutter_assignment/models/product_model.dart';
+import 'package:barcode_scanner/models/cart_item_model.dart';
+import 'package:barcode_scanner/models/product_model.dart';
 import 'package:get/get.dart';
 
 class MultiScanController extends GetxController {

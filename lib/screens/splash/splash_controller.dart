@@ -1,5 +1,5 @@
+import 'package:barcode_scanner/screens/home/home_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_assignment/screens/home/home_view.dart';
 import 'package:get/get.dart';
 
 class SplashController extends GetxController with GetTickerProviderStateMixin {

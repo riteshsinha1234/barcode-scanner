@@ -1,10 +1,10 @@
+import 'package:barcode_scanner/components/colors.dart';
+import 'package:barcode_scanner/components/texts.dart';
+import 'package:barcode_scanner/components/widget.dart';
+import 'package:barcode_scanner/models/product_model.dart';
+import 'package:barcode_scanner/screens/multi_scan/multi_scan_controller.dart';
+import 'package:barcode_scanner/screens/scanner/scanner_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_assignment/components/colors.dart';
-import 'package:flutter_assignment/components/texts.dart';
-import 'package:flutter_assignment/components/widget.dart';
-import 'package:flutter_assignment/models/product_model.dart';
-import 'package:flutter_assignment/screens/multi_scan/multi_scan_controller.dart';
-import 'package:flutter_assignment/screens/scanner/scanner_view.dart';
 import 'package:get/get.dart';
 
 class MultiScanView extends StatelessWidget {

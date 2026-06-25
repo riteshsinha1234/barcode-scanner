@@ -1,4 +1,4 @@
-import 'package:flutter_assignment/data/product_data.dart';
+import 'package:barcode_scanner/data/product_data.dart';
 import 'package:get/get.dart';
 
 class SingleScanController extends GetxController {

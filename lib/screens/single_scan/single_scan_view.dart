@@ -1,9 +1,9 @@
+import 'package:barcode_scanner/components/colors.dart';
+import 'package:barcode_scanner/components/texts.dart';
+import 'package:barcode_scanner/components/widget.dart';
+import 'package:barcode_scanner/screens/scanner/scanner_view.dart';
+import 'package:barcode_scanner/screens/single_scan/single_scan_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_assignment/components/colors.dart';
-import 'package:flutter_assignment/components/texts.dart';
-import 'package:flutter_assignment/components/widget.dart';
-import 'package:flutter_assignment/screens/scanner/scanner_view.dart';
-import 'package:flutter_assignment/screens/single_scan/single_scan_controller.dart';
 import 'package:get/get.dart';
 
 class SingleScanView extends StatelessWidget {
