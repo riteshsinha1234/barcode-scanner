@@ -1,6 +1,6 @@
+import 'package:barcode_scanner/components/colors.dart';
+import 'package:barcode_scanner/components/texts.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_assignment/components/colors.dart';
-import 'package:flutter_assignment/components/texts.dart';
 
 //screen size
 SizedBox gapH(double value) => SizedBox(height: value);
