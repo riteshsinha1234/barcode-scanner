@@ -67,21 +67,15 @@ class ProductManagementView extends StatelessWidget {
             ),
 
             gapH(15),
-            Row(
-              children: [
-                customTxt("₹", 20, iconTeal, FontWeight.w700),
-                gapW(5),
-                Expanded(
-                  child: customTextField(
-                    "Product Price",
-                    screenWidth(context),
-                    16,
-                    (value) {},
-                    controller: controller.priceController,
-                    keyboardType: TextInputType.number,
-                  ),
-                ),
-              ],
+
+            customTextField(
+              "Product Price",
+              screenWidth(context),
+              16,
+              (value) {},
+              controller: controller.priceController,
+              keyboardType: TextInputType.number,
+              prefixText: "₹",
             ),
             gapH(15),
             customTextField(

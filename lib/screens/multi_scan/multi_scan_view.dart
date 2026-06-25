@@ -1,12 +1,13 @@
 import 'package:barcode_scanner/components/colors.dart';
 import 'package:barcode_scanner/components/texts.dart';
 import 'package:barcode_scanner/components/widget.dart';
-import 'package:barcode_scanner/data/product_data.dart';
+import 'package:barcode_scanner/models/product_model.dart';
 import 'package:barcode_scanner/screens/bill/bill_view.dart';
 import 'package:barcode_scanner/screens/multi_scan/multi_scan_controller.dart';
 import 'package:barcode_scanner/screens/scanner/scanner_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 
 class MultiScanView extends StatelessWidget {
   MultiScanView({super.key});
@@ -29,40 +30,41 @@ class MultiScanView extends StatelessWidget {
               40,
               () async {
                 final result = await Get.to(() => const ScannerView());
+
+                if (result == null) return;
+
                 final scannedCode = result.toString().trim();
 
-                if (result != null) {
-                  // ignore: avoid_print
-                  print("Scanned Barcode: ${result.toString()}");
+                // ignore: avoid_print
+                print("Scanned Barcode: $scannedCode");
 
-                  try {
-                    final product = products.firstWhere(
-                      (item) => item.barcode.trim() == scannedCode,
-                    );
+                final productBox = Hive.box<ProductModel>('products');
 
-                    controller.addProduct(product);
-                  } catch (e) {
-                    Get.snackbar(
+                final product = productBox.get(scannedCode);
+
+                if (product != null) {
+                  controller.addProduct(product);
+                } else {
+                  Get.snackbar(
+                    "Product Not Found",
+                    "No product found for barcode $scannedCode",
+                    backgroundColor: white,
+                    snackPosition: SnackPosition.TOP,
+                    borderRadius: 12,
+                    margin: const EdgeInsets.all(12),
+                    titleText: customTxt(
                       "Product Not Found",
-                      "No product found for barcode ${result.toString()}",
-                      backgroundColor: white,
-                      snackPosition: SnackPosition.TOP,
-                      borderRadius: 12,
-                      margin: const EdgeInsets.all(12),
-                      titleText: customTxt(
-                        "Product Not Found",
-                        14,
-                        black,
-                        FontWeight.w400,
-                      ),
-                      messageText: customTxt(
-                        "No product found for barcode ${result.toString()}",
-                        14,
-                        black,
-                        FontWeight.w600,
-                      ),
-                    );
-                  }
+                      14,
+                      black,
+                      FontWeight.w400,
+                    ),
+                    messageText: customTxt(
+                      "No product found for barcode $scannedCode",
+                      14,
+                      black,
+                      FontWeight.w600,
+                    ),
+                  );
                 }
               },
               Row(
