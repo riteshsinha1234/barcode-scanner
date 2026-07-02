@@ -1,6 +1,7 @@
 import 'package:barcode_scanner/components/colors.dart';
 import 'package:barcode_scanner/components/texts.dart';
 import 'package:barcode_scanner/components/widget.dart';
+import 'package:barcode_scanner/screens/auth/auth_controller.dart';
 import 'package:barcode_scanner/screens/multi_scan/multi_scan_view.dart';
 import 'package:barcode_scanner/screens/product_management/product_manag_view.dart';
 import 'package:barcode_scanner/screens/sales_history/sales_history_view.dart';
@@ -18,11 +19,23 @@ class HomeView extends StatelessWidget {
         iconTeal,
         white,
         'Barcode Home',
-        actionIcon: GestureDetector(
-          onTap: () {
-            Get.to(() => SalesHistoryView());
-          },
-          child: Icon(Icons.list_alt_outlined, color: white),
+        actionIcon: Row(
+          children: [
+            GestureDetector(
+              onTap: () {
+                Get.to(() => SalesHistoryView());
+              },
+              child: const Icon(Icons.list_alt_outlined, color: white),
+            ),
+            const SizedBox(width: 18),
+            GestureDetector(
+              onTap: () {
+                Get.find<AuthController>().showLogoutDialog(context);
+              },
+              child: const Icon(Icons.logout, color: white),
+            ),
+            const SizedBox(width: 12),
+          ],
         ),
       ),
 
@@ -58,6 +71,7 @@ class HomeView extends StatelessWidget {
                 Get.to(() => MultiScanView());
               },
             ),
+            Spacer(),
           ],
         ),
       ),

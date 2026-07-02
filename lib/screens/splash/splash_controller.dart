@@ -1,4 +1,4 @@
-import 'package:barcode_scanner/screens/home/home_view.dart';
+import 'package:barcode_scanner/screens/auth/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -24,7 +24,7 @@ class SplashController extends GetxController with GetTickerProviderStateMixin {
 
     rotationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        Get.offAll(() => HomeView());
+        Get.offAll(() => LoginView());
       }
     });
   }

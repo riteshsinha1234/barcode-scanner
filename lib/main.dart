@@ -1,17 +1,20 @@
 import 'package:barcode_scanner/models/cart_item_model.dart';
 import 'package:barcode_scanner/models/product_model.dart';
 import 'package:barcode_scanner/models/sales_model.dart';
+import 'package:barcode_scanner/screens/auth/login_view.dart';
+import 'package:barcode_scanner/screens/auth/register_view.dart';
 import 'package:barcode_scanner/screens/home/home_view.dart';
 import 'package:barcode_scanner/screens/multi_scan/multi_scan_view.dart';
 import 'package:barcode_scanner/screens/single_scan/single_scan_view.dart';
 import 'package:barcode_scanner/screens/splash/splash_view.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await Firebase.initializeApp();
   await Hive.initFlutter();
 
   Hive.registerAdapter(ProductModelAdapter());
@@ -41,6 +44,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       getPages: [
         GetPage(name: '/', page: () => SplashView()),
+        GetPage(name: '/login', page: () => LoginView()),
+        GetPage(name: '/register', page: () => RegisterView()),
         GetPage(name: '/home', page: () => HomeView()),
         GetPage(name: '/single scan', page: () => SingleScanView()),
         GetPage(name: '/multi scan', page: () => MultiScanView()),
