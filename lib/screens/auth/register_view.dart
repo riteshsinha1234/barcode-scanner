@@ -3,7 +3,6 @@ import 'package:barcode_scanner/components/images.dart';
 import 'package:barcode_scanner/components/texts.dart';
 import 'package:barcode_scanner/components/widget.dart';
 import 'package:barcode_scanner/screens/auth/auth_controller.dart';
-import 'package:barcode_scanner/screens/home/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -64,20 +63,31 @@ class RegisterView extends StatelessWidget {
                 controller: controller.confirmPassword,
               ),
               gapH(30),
-              customButton(
-                40.0,
-                screenWidth(context),
-                grn,
-                white,
-                30,
-                () {
-                  if (validateRegister(controller)) {
-                    showError("Account created successfully.", isError: false);
-
-                    Get.offAll(() => HomeView());
-                  }
-                },
-                customTxt("Register", 16, white, FontWeight.w600),
+              Obx(
+                () => customButton(
+                  40.0,
+                  screenWidth(context),
+                  controller.isLoading.value ? gry99 : grn,
+                  white,
+                  30,
+                  controller.isLoading.value
+                      ? () {}
+                      : () async {
+                          if (validateRegister(controller)) {
+                            await controller.registerUser();
+                          }
+                        },
+                  controller.isLoading.value
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: white,
+                          ),
+                        )
+                      : customTxt("Register", 16, white, FontWeight.w600),
+                ),
               ),
               gapH(15),
               Row(
