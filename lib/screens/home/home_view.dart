@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:barcode_scanner/components/colors.dart';
 import 'package:barcode_scanner/components/texts.dart';
 import 'package:barcode_scanner/components/widget.dart';
@@ -30,9 +32,9 @@ class HomeView extends StatelessWidget {
             const SizedBox(width: 18),
             GestureDetector(
               onTap: () {
-                Get.find<AuthController>().showLogoutDialog(context);
+                //profile
               },
-              child: const Icon(Icons.logout, color: white),
+              child: Icon(Icons.person, color: white),
             ),
             const SizedBox(width: 12),
           ],
@@ -70,6 +72,29 @@ class HomeView extends StatelessWidget {
               onTap: () {
                 Get.to(() => MultiScanView());
               },
+            ),
+            Spacer(),
+            GestureDetector(
+              onTap: () {
+                Get.find<AuthController>().showLogoutDialog(context);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 10,
+                      spreadRadius: 2,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: const CircleAvatar(
+                  radius: 30,
+                  child: Icon(Icons.logout, color: iconTeal),
+                ),
+              ),
             ),
             Spacer(),
           ],
