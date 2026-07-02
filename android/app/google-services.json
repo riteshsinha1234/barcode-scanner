@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "349402522646",
+    "project_id": "barcode-scanner-20122",
+    "storage_bucket": "barcode-scanner-20122.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:349402522646:android:00ff8d84f81c9626314137",
+        "android_client_info": {
+          "package_name": "com.example.barcode_scanner"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCG-FJ808NviinVL4wNuNtT4L441Km--S4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

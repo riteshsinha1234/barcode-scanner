@@ -1,8 +1,10 @@
 import 'package:barcode_scanner/components/colors.dart';
 import 'package:barcode_scanner/components/texts.dart';
+import 'package:barcode_scanner/screens/auth/auth_controller.dart';
 import 'package:barcode_scanner/screens/product_management/product_manage_controller.dart'
     show ProductManagementController;
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 //screen size
@@ -139,8 +141,7 @@ Widget customCard({
   );
 }
 
-// //Authentication =========================>>
-
+//TextFiled
 Widget customTextField(
   String txt,
   double wt,
@@ -379,5 +380,184 @@ AppBar customAppBar(Color bgclr, textclr, String title, {Widget? actionIcon}) {
             ),
           ]
         : [],
+  );
+}
+
+// //Authentication =========================>>
+
+Widget customNmEmlField(
+  String txt,
+  double wt,
+  double txtsz,
+  Function(String) onChanged, {
+  TextEditingController? controller,
+  String? Function(String?)? validator,
+  bool isPassword = false,
+}) {
+  return SizedBox(
+    height: 50,
+    width: wt,
+    child: TextFormField(
+      controller: controller,
+      cursorHeight: 15,
+      onChanged: onChanged,
+      validator: validator,
+      textInputAction: TextInputAction.next,
+      obscureText: isPassword,
+      style: const TextStyle(color: grn),
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: white,
+        contentPadding: const EdgeInsets.only(left: 12),
+        hintText: txt,
+        hintStyle: TextStyle(
+          color: grn,
+          fontSize: txtsz,
+          fontWeight: FontWeight.w300,
+          fontFamily: "Outfit",
+        ),
+        border: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderSide: BorderSide(width: 1, color: grn),
+        ),
+        enabledBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderSide: BorderSide(width: 1, color: grn),
+        ),
+      ),
+    ),
+  );
+}
+
+Widget customPassField(
+  String txt,
+  double wt,
+  double txtsz,
+  RxBool obscureTextController,
+  Function(String) onChanged, {
+  TextEditingController? controller,
+}) {
+  return SizedBox(
+    height: 45,
+    width: wt,
+    child: Obx(
+      () => TextFormField(
+        controller: controller,
+        cursorHeight: 15,
+        obscureText: obscureTextController.value,
+        onChanged: onChanged,
+        textInputAction: TextInputAction.next,
+        style: const TextStyle(color: grn),
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: white,
+          contentPadding: const EdgeInsets.only(left: 12),
+          hintText: txt,
+          hintStyle: TextStyle(
+            color: grn,
+            fontSize: txtsz,
+            fontWeight: FontWeight.w300,
+            fontFamily: "Outfit",
+          ),
+          border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderSide: BorderSide(width: 1, color: grn),
+          ),
+          enabledBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderSide: BorderSide(width: 1, color: grn),
+          ),
+          suffixIcon: GestureDetector(
+            onTap: () {
+              obscureTextController.value = !obscureTextController.value;
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: obscureTextController.value
+                  ? const Icon(Icons.visibility_off, color: grn)
+                  : const Icon(Icons.visibility, color: grn),
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+bool validateRegister(AuthController controller) {
+  if (controller.name.text.trim().isEmpty) {
+    showError("Name cannot be empty.");
+    return false;
+  }
+
+  // 3. Email (empty → format)
+  final email = controller.email.text.trim();
+  if (email.isEmpty) {
+    showError("Email cannot be empty.");
+    return false;
+  }
+  if (!GetUtils.isEmail(email)) {
+    showError("Please enter a valid email address.");
+    return false;
+  }
+
+  // 5. Password (empty → length)
+  final password = controller.password.text;
+  if (password.isEmpty) {
+    showError("Password cannot be empty.");
+    return false;
+  }
+  if (password.length < 6) {
+    showError("Password must be at least 6 characters.");
+    return false;
+  }
+  final confirmPassword = controller.confirmPassword.text;
+
+  if (confirmPassword.isEmpty) {
+    showError("Confirm password cannot be empty.");
+    return false;
+  }
+
+  if (password != confirmPassword) {
+    showError("Password and confirm password do not match.");
+    return false;
+  }
+
+  return true;
+}
+
+//Login Validator  ========================>>
+bool validateLogin(AuthController controller) {
+  final email = controller.email.text.trim();
+  final password = controller.password.text;
+
+  if (email.isEmpty) {
+    showError("Email cannot be empty.");
+    return false;
+  }
+  if (!GetUtils.isEmail(email)) {
+    showError("Please enter a valid email address.");
+    return false;
+  }
+  if (password.isEmpty) {
+    showError("Password cannot be empty.");
+    return false;
+  }
+  if (password.length < 6) {
+    showError("Password must be at least 6 characters.");
+    return false;
+  }
+  return true;
+}
+
+void showError(String msg, {bool isError = true}) {
+  Fluttertoast.showToast(
+    msg: msg,
+    toastLength: Toast.LENGTH_SHORT,
+    gravity: ToastGravity.CENTER,
+    timeInSecForIosWeb: 2,
+    backgroundColor: isError ? laserRed : grn,
+    textColor: white,
+    fontSize: 14.0,
   );
 }
