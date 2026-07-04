@@ -77,7 +77,7 @@ class SingleScanView extends StatelessWidget {
                   final result = await Get.to(() => const ScannerView());
 
                   if (result != null) {
-                    controller.loadProduct(result.toString());
+                    await controller.loadProduct(result.toString());
                   }
                 },
                 Row(

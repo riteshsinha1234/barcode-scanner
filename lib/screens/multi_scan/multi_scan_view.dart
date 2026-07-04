@@ -1,13 +1,11 @@
 import 'package:barcode_scanner/components/colors.dart';
 import 'package:barcode_scanner/components/texts.dart';
 import 'package:barcode_scanner/components/widget.dart';
-import 'package:barcode_scanner/models/product_model.dart';
 import 'package:barcode_scanner/screens/bill/bill_view.dart';
 import 'package:barcode_scanner/screens/multi_scan/multi_scan_controller.dart';
-import 'package:barcode_scanner/screens/scanner/scanner_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 
 class MultiScanView extends StatelessWidget {
   MultiScanView({super.key});
@@ -18,68 +16,66 @@ class MultiScanView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: customAppBar(iconTeal, white, "Multi Product Scan"),
-
       body: CustomBody(
         child: Column(
           children: [
-            customButton(
-              48,
-              screenWidth(context),
-              iconTeal,
-              white,
-              40,
-              () async {
-                final result = await Get.to(() => const ScannerView());
+            Container(
+              height: 240,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: black,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: iconTeal, width: 2.5),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(18),
+                child: Stack(
+                  children: [
+                    MobileScanner(
+                      controller: controller.cameraController,
+                      fit: BoxFit.fill,
+                      onDetect: (capture) {
+                        final barcode = capture.barcodes.first.rawValue;
 
-                if (result == null) return;
-
-                final scannedCode = result.toString().trim();
-
-                // ignore: avoid_print
-                print("Scanned Barcode: $scannedCode");
-
-                final productBox = Hive.box<ProductModel>('products');
-
-                final product = productBox.get(scannedCode);
-
-                if (product != null) {
-                  controller.addProduct(product);
-                } else {
-                  Get.snackbar(
-                    "Product Not Found",
-                    "No product found for barcode $scannedCode",
-                    backgroundColor: white,
-                    snackPosition: SnackPosition.TOP,
-                    borderRadius: 12,
-                    margin: const EdgeInsets.all(12),
-                    titleText: customTxt(
-                      "Product Not Found",
-                      14,
-                      black,
-                      FontWeight.w400,
+                        if (barcode != null) {
+                          controller.scanProduct(barcode.trim());
+                        }
+                      },
                     ),
-                    messageText: customTxt(
-                      "No product found for barcode $scannedCode",
-                      14,
-                      black,
-                      FontWeight.w600,
+
+                    Positioned(
+                      right: 12,
+                      bottom: 12,
+                      child: Obx(
+                        () => Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: controller.isTorchOn.value
+                                ? vestYellow
+                                : white,
+                          ),
+                          child: IconButton(
+                            onPressed: controller.toggleTorch,
+                            icon: Icon(
+                              controller.isTorchOn.value
+                                  ? Icons.flashlight_on
+                                  : Icons.flashlight_off,
+                              color: controller.isTorchOn.value ? white : black,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                  );
-                }
-              },
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.qr_code_scanner, color: white),
-
-                  gapW(10),
-
-                  customTxt("Scan Product", 16, white, FontWeight.w600),
-                ],
+                  ],
+                ),
               ),
             ),
 
-            gapH(20),
+            gapH(15),
+
+            const Divider(thickness: 1),
+
+            gapH(10),
 
             Expanded(
               child: Obx(
@@ -109,11 +105,10 @@ class MultiScanView extends StatelessWidget {
                               ),
                               subtitle: customTxt(
                                 item.product.barcode,
-                                16,
+                                14,
                                 black,
-                                FontWeight.w600,
+                                FontWeight.w500,
                               ),
-
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -127,7 +122,6 @@ class MultiScanView extends StatelessWidget {
                                       color: laserRed,
                                     ),
                                   ),
-
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
@@ -145,7 +139,6 @@ class MultiScanView extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-
                                   IconButton(
                                     iconSize: 28,
                                     onPressed: () {
@@ -190,26 +183,30 @@ class MultiScanView extends StatelessWidget {
 
             gapH(15),
 
-            customButton(
-              48,
-              screenWidth(context),
-              grn,
-              white,
-              40,
-              () {
-                Get.to(() => BillView());
-              },
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.receipt_long, color: white),
+            Obx(() {
+              final hasProducts = controller.cartItems.isNotEmpty;
 
-                  gapW(10),
+              return customButton(
+                48,
+                screenWidth(context),
+                hasProducts ? grn : gry99,
+                white,
+                40,
+                () {
+                  if (!hasProducts) return;
 
-                  customTxt("Generate Bill", 16, white, FontWeight.w600),
-                ],
-              ),
-            ),
+                  Get.to(() => BillView());
+                },
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.receipt_long, color: white),
+                    gapW(10),
+                    customTxt("Generate Bill", 16, white, FontWeight.w600),
+                  ],
+                ),
+              );
+            }),
           ],
         ),
       ),
