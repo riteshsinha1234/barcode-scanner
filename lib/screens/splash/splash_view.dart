@@ -43,6 +43,7 @@ class SplashView extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20),
                                 boxShadow: [
                                   BoxShadow(
+                                    // ignore: deprecated_member_use
                                     color: sariBlue.withOpacity(0.4),
                                     blurRadius: 5,
                                     spreadRadius: 5,

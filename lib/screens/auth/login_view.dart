@@ -3,6 +3,7 @@ import 'package:barcode_scanner/components/images.dart';
 import 'package:barcode_scanner/components/texts.dart';
 import 'package:barcode_scanner/components/widget.dart';
 import 'package:barcode_scanner/screens/auth/auth_controller.dart';
+import 'package:barcode_scanner/screens/auth/forgot_view.dart';
 import 'package:barcode_scanner/screens/auth/register_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -100,11 +101,16 @@ class LoginView extends StatelessWidget {
               gapH(5),
               Align(
                 alignment: Alignment.center,
-                child: customTxt(
-                  "Forgot Password",
-                  14,
-                  iconTeal,
-                  FontWeight.w600,
+                child: GestureDetector(
+                  onTap: () {
+                    Get.to(() => ForgotView());
+                  },
+                  child: customTxt(
+                    "Forgot Password?",
+                    14,
+                    grn,
+                    FontWeight.w600,
+                  ),
                 ),
               ),
             ],
