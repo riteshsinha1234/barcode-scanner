@@ -1,18 +1,19 @@
 // ignore_for_file: deprecated_member_use
-
 import 'package:barcode_scanner/components/colors.dart';
 import 'package:barcode_scanner/components/texts.dart';
 import 'package:barcode_scanner/components/widget.dart';
-import 'package:barcode_scanner/screens/auth/auth_controller.dart';
+import 'package:barcode_scanner/screens/home/home_controller.dart';
 import 'package:barcode_scanner/screens/multi_scan/multi_scan_view.dart';
 import 'package:barcode_scanner/screens/product_management/product_manag_view.dart';
+import 'package:barcode_scanner/screens/profile/profile_view.dart';
 import 'package:barcode_scanner/screens/sales_history/sales_history_view.dart';
 import 'package:barcode_scanner/screens/single_scan/single_scan_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+  HomeView({super.key});
+  final HomeController controller = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class HomeView extends StatelessWidget {
             const SizedBox(width: 18),
             GestureDetector(
               onTap: () {
-                //profile
+                Get.to(() => ProfileView());
               },
               child: Icon(Icons.person, color: white),
             ),
@@ -76,7 +77,7 @@ class HomeView extends StatelessWidget {
             Spacer(),
             GestureDetector(
               onTap: () {
-                Get.find<AuthController>().showLogoutDialog(context);
+                controller.showLogoutDialog(context);
               },
               child: Container(
                 decoration: BoxDecoration(

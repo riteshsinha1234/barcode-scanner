@@ -1,5 +1,4 @@
-import 'package:barcode_scanner/components/colors.dart';
-import 'package:barcode_scanner/components/texts.dart';
+import 'dart:async';
 import 'package:barcode_scanner/components/widget.dart';
 import 'package:barcode_scanner/screens/auth/login_view.dart';
 import 'package:barcode_scanner/screens/home/home_view.dart';
@@ -15,26 +14,21 @@ class AuthController extends GetxController {
   final email = TextEditingController();
   final password = TextEditingController();
   final confirmPassword = TextEditingController();
+  final forgotEmail = TextEditingController();
+  final RxBool resetLinkSent = false.obs;
 
   final RxBool obscureConfirmPassword = true.obs;
   final RxBool obscurePassword = true.obs;
   final RxBool isLoading = false.obs;
+  final RxInt resendSeconds = 0.obs;
+  final RxBool canResend = true.obs;
+  Timer? resendTimer;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+  //Login User--------->
   Future<void> loginUser() async {
     try {
       isLoading.value = true;
-
-      final userCheck = await firestore
-          .collection("users")
-          .where("email", isEqualTo: email.text.trim())
-          .limit(1)
-          .get();
-
-      if (userCheck.docs.isEmpty) {
-        showError("You are new here, try to register.");
-        return;
-      }
 
       await auth.signInWithEmailAndPassword(
         email: email.text.trim(),
@@ -45,8 +39,10 @@ class AuthController extends GetxController {
       clearFields();
       Get.offAll(() => HomeView());
     } on FirebaseAuthException catch (e) {
-      if (e.code == "wrong-password" || e.code == "invalid-credential") {
+      if (e.code == "invalid-credential" || e.code == "wrong-password") {
         showError("Wrong password or click on Forgot Password.");
+      } else if (e.code == "user-not-found") {
+        showError("You are new here, try to register.");
       } else if (e.code == "invalid-email") {
         showError("Please enter a valid email address.");
       } else if (e.code == "user-disabled") {
@@ -59,6 +55,7 @@ class AuthController extends GetxController {
     }
   }
 
+  //Register User--------->
   Future<void> registerUser() async {
     try {
       isLoading.value = true;
@@ -81,10 +78,27 @@ class AuthController extends GetxController {
 
       await user.updateDisplayName(userName);
 
+      final counterRef = firestore.collection("app_data").doc("user_counter");
+
+      final shopNo = await firestore.runTransaction((transaction) async {
+        final snapshot = await transaction.get(counterRef);
+
+        int count = 1;
+
+        if (snapshot.exists) {
+          count = (snapshot.data()?["count"] ?? 0) + 1;
+        }
+
+        transaction.set(counterRef, {"count": count});
+
+        return "ShopNoR${count.toString().padLeft(2, '0')}";
+      });
+
       await firestore.collection("users").doc(user.uid).set({
         "name": userName,
         "email": userEmail,
         "uid": user.uid,
+        "shopNo": shopNo,
         "createdAt": FieldValue.serverTimestamp(),
       });
 
@@ -102,12 +116,66 @@ class AuthController extends GetxController {
     }
   }
 
+  //Logout User--------->
   Future<void> logoutUser() async {
     await auth.signOut();
     clearFields();
     obscurePassword.value = true;
     obscureConfirmPassword.value = true;
     Get.offAll(() => LoginView());
+  }
+
+  //Forgot Password User--------->
+  Future<void> forgotPassword() async {
+    try {
+      final userEmail = forgotEmail.text.trim();
+
+      if (userEmail.isEmpty) {
+        showError("Email cannot be empty.");
+        return;
+      }
+
+      if (!GetUtils.isEmail(userEmail)) {
+        showError("Please enter a valid email address.");
+        return;
+      }
+
+      isLoading.value = true;
+
+      await auth.sendPasswordResetEmail(email: userEmail);
+
+      resetLinkSent.value = true;
+      startResendTimer();
+
+      showError("Password reset link sent to your email.", isError: false);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "invalid-email") {
+        showError("Please enter a valid email address.");
+      } else {
+        showError("Failed to send reset email.");
+      }
+    } catch (e) {
+      showError("Something went wrong.");
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  void startResendTimer() {
+    resendTimer?.cancel();
+
+    canResend.value = false;
+    resendSeconds.value = 15;
+
+    resendTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (resendSeconds.value <= 1) {
+        timer.cancel();
+        canResend.value = true;
+        resendSeconds.value = 0;
+      } else {
+        resendSeconds.value--;
+      }
+    });
   }
 
   void clearFields() {
@@ -123,62 +191,8 @@ class AuthController extends GetxController {
     email.dispose();
     password.dispose();
     confirmPassword.dispose();
+    forgotEmail.dispose();
+    resendTimer?.cancel();
     super.onClose();
-  }
-
-  void showLogoutDialog(BuildContext context) {
-    Get.dialog(
-      AlertDialog(
-        backgroundColor: white,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        title: Row(
-          children: [
-            const Icon(Icons.logout_rounded, color: laserRed),
-            const SizedBox(width: 10),
-            customTxt("Logout", 20, black, FontWeight.w600),
-          ],
-        ),
-        content: customTxt(
-          "Are you sure you want to logout from your account?",
-          15,
-          gry99,
-          FontWeight.w400,
-        ),
-        actions: [
-          Row(
-            children: [
-              Expanded(
-                child: customButton(
-                  40,
-                  screenWidth(context),
-                  white,
-                  gry99,
-                  5,
-                  () {
-                    Get.back();
-                  },
-                  customTxt("Cancel", 15, gry99, FontWeight.w600),
-                ),
-              ),
-              gapW(12),
-              Expanded(
-                child: customButton(
-                  40,
-                  screenWidth(context),
-                  laserRed,
-                  laserRed,
-                  5,
-                  () async {
-                    Get.back();
-                    await logoutUser();
-                  },
-                  customTxt("Logout", 15, white, FontWeight.w600),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
   }
 }

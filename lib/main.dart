@@ -1,10 +1,12 @@
 import 'package:barcode_scanner/models/cart_item_model.dart';
 import 'package:barcode_scanner/models/product_model.dart';
 import 'package:barcode_scanner/models/sales_model.dart';
+import 'package:barcode_scanner/screens/auth/forgot_view.dart';
 import 'package:barcode_scanner/screens/auth/login_view.dart';
 import 'package:barcode_scanner/screens/auth/register_view.dart';
 import 'package:barcode_scanner/screens/home/home_view.dart';
 import 'package:barcode_scanner/screens/multi_scan/multi_scan_view.dart';
+import 'package:barcode_scanner/screens/profile/profile_view.dart';
 import 'package:barcode_scanner/screens/single_scan/single_scan_view.dart';
 import 'package:barcode_scanner/screens/splash/splash_view.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -46,7 +48,10 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/', page: () => SplashView()),
         GetPage(name: '/login', page: () => LoginView()),
         GetPage(name: '/register', page: () => RegisterView()),
+        GetPage(name: '/register', page: () => ForgotView()),
+        GetPage(name: '/register', page: () => ProfileView()),
         GetPage(name: '/home', page: () => HomeView()),
+
         GetPage(name: '/single scan', page: () => SingleScanView()),
         GetPage(name: '/multi scan', page: () => MultiScanView()),
       ],
