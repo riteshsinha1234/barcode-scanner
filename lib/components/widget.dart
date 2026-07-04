@@ -3,6 +3,7 @@ import 'package:barcode_scanner/components/texts.dart';
 import 'package:barcode_scanner/screens/auth/auth_controller.dart';
 import 'package:barcode_scanner/screens/product_management/product_manage_controller.dart'
     show ProductManagementController;
+import 'package:barcode_scanner/screens/profile/proifle_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -216,28 +217,32 @@ class ProductDialog extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
         ),
         child: Obx(
-          () => controller.products.isEmpty
-              ? SizedBox(
-                  height: 120,
-                  child: Center(
-                    child: customTxt(
-                      "No Products Found",
-                      16,
-                      black,
-                      FontWeight.w600,
-                    ),
-                  ),
-                )
-              : SizedBox(
-                  height: 400,
-                  width: double.maxFinite,
-                  child: Column(
-                    children: [
-                      customTxt("Saved Products", 18, black, FontWeight.w700),
+          () => SizedBox(
+            height: 450,
+            width: double.maxFinite,
+            child: Column(
+              children: [
+                customTxt(
+                  "Saved Products (${controller.products.length})",
+                  18,
+                  black,
+                  FontWeight.w700,
+                ),
 
-                      gapH(15),
+                gapH(15),
 
-                      Expanded(
+                controller.products.isEmpty
+                    ? Expanded(
+                        child: Center(
+                          child: customTxt(
+                            "No Products Found",
+                            16,
+                            black,
+                            FontWeight.w600,
+                          ),
+                        ),
+                      )
+                    : Expanded(
                         child: ListView.builder(
                           itemCount: controller.products.length,
                           itemBuilder: (context, index) {
@@ -266,7 +271,6 @@ class ProductDialog extends StatelessWidget {
                                             FontWeight.w600,
                                           ),
                                         ),
-
                                         customTxt(
                                           "₹${product.price}",
                                           16,
@@ -275,9 +279,7 @@ class ProductDialog extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-
                                     gapH(5),
-
                                     Align(
                                       alignment: Alignment.centerLeft,
                                       child: customTxt(
@@ -287,9 +289,7 @@ class ProductDialog extends StatelessWidget {
                                         FontWeight.w400,
                                       ),
                                     ),
-
                                     gapH(8),
-
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -307,7 +307,6 @@ class ProductDialog extends StatelessWidget {
                                             style: TextStyle(color: iconTeal),
                                           ),
                                         ),
-
                                         TextButton.icon(
                                           onPressed: () {
                                             Get.defaultDialog(
@@ -339,27 +338,24 @@ class ProductDialog extends StatelessWidget {
                                 ),
                               ),
                             );
-                            //
                           },
                         ),
                       ),
 
-                      gapH(10),
+                gapH(10),
 
-                      customButton(
-                        45,
-                        double.infinity,
-                        laserRed,
-                        white,
-                        12,
-                        () => Get.back(),
-                        Center(
-                          child: customTxt("Close", 14, white, FontWeight.w600),
-                        ),
-                      ),
-                    ],
-                  ),
+                customButton(
+                  45,
+                  double.infinity,
+                  laserRed,
+                  white,
+                  12,
+                  () => Get.back(),
+                  Center(child: customTxt("Close", 14, white, FontWeight.w600)),
                 ),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -559,5 +555,131 @@ void showError(String msg, {bool isError = true}) {
     backgroundColor: isError ? laserRed : grn,
     textColor: white,
     fontSize: 14.0,
+  );
+}
+
+//profile------------------->
+Widget profileTile(
+  IconData icon,
+  String title,
+  String value,
+  BuildContext context,
+) {
+  return Container(
+    width: screenWidth(context),
+    margin: const EdgeInsets.only(bottom: 15),
+    padding: const EdgeInsets.all(14),
+    decoration: BoxDecoration(
+      color: white,
+      borderRadius: BorderRadius.circular(12),
+      boxShadow: [
+        BoxShadow(
+          // ignore: deprecated_member_use
+          color: black.withOpacity(0.08),
+          blurRadius: 10,
+          offset: const Offset(0, 4),
+        ),
+      ],
+    ),
+    child: Row(
+      children: [
+        CircleAvatar(
+          radius: 20,
+          // ignore: deprecated_member_use
+          backgroundColor: grn.withOpacity(0.12),
+          child: Icon(icon, color: grn, size: 22),
+        ),
+        gapW(12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              customTxt(title, 13, gry99, FontWeight.w500),
+              gapH(4),
+              customTxt(value, 15, black, FontWeight.w600),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+void showEditProfileDialog(BuildContext context) {
+  final ProfileController controller = Get.put(ProfileController());
+  controller.editNameController.text = controller.profileName.value;
+
+  Get.dialog(
+    AlertDialog(
+      backgroundColor: white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      title: customTxt("Edit Profile", 20, black, FontWeight.w600),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          customNmEmlField(
+            "Full Name",
+            double.infinity,
+            15,
+            (value) {},
+            controller: controller.editNameController,
+          ),
+          gapH(15),
+          customNmEmlField(
+            "Email Address",
+            double.infinity,
+            15,
+            (value) {},
+            controller: controller.editEmailController,
+          ),
+        ],
+      ),
+      actions: [
+        Row(
+          children: [
+            Expanded(
+              child: customButton(
+                40,
+                screenWidth(context),
+                white,
+                gry99,
+                5,
+                () {
+                  Get.back();
+                },
+                customTxt("Cancel", 15, gry99, FontWeight.w600),
+              ),
+            ),
+            gapW(12),
+            Expanded(
+              child: Obx(
+                () => customButton(
+                  40,
+                  screenWidth(context),
+                  controller.isUpdating.value ? gry99 : grn,
+                  white,
+                  5,
+                  controller.isUpdating.value
+                      ? () {}
+                      : () async {
+                          await controller.updateProfile();
+                        },
+                  controller.isUpdating.value
+                      ? const SizedBox(
+                          height: 18,
+                          width: 18,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: white,
+                          ),
+                        )
+                      : customTxt("Save", 15, white, FontWeight.w600),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    ),
   );
 }

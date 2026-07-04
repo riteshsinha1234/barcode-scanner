@@ -6,6 +6,7 @@ import 'package:barcode_scanner/screens/auth/login_view.dart';
 import 'package:barcode_scanner/screens/auth/register_view.dart';
 import 'package:barcode_scanner/screens/home/home_view.dart';
 import 'package:barcode_scanner/screens/multi_scan/multi_scan_view.dart';
+import 'package:barcode_scanner/screens/product_management/product_manag_view.dart';
 import 'package:barcode_scanner/screens/profile/profile_view.dart';
 import 'package:barcode_scanner/screens/single_scan/single_scan_view.dart';
 import 'package:barcode_scanner/screens/splash/splash_view.dart';
@@ -48,9 +49,10 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/', page: () => SplashView()),
         GetPage(name: '/login', page: () => LoginView()),
         GetPage(name: '/register', page: () => RegisterView()),
-        GetPage(name: '/register', page: () => ForgotView()),
-        GetPage(name: '/register', page: () => ProfileView()),
+        GetPage(name: '/forgot', page: () => ForgotView()),
+        GetPage(name: '/profile', page: () => ProfileView()),
         GetPage(name: '/home', page: () => HomeView()),
+        GetPage(name: '/product_manag', page: () => ProductManagementView()),
 
         GetPage(name: '/single scan', page: () => SingleScanView()),
         GetPage(name: '/multi scan', page: () => MultiScanView()),
