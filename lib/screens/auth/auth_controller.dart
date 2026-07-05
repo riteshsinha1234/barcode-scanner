@@ -30,19 +30,41 @@ class AuthController extends GetxController {
     try {
       isLoading.value = true;
 
+      final userEmail = email.text.trim().toLowerCase();
+      final userPassword = password.text.trim();
+
+      if (userEmail.isEmpty || userPassword.isEmpty) {
+        showError("Email and password are required.");
+        return;
+      }
+
       await auth.signInWithEmailAndPassword(
-        email: email.text.trim(),
-        password: password.text.trim(),
+        email: userEmail,
+        password: userPassword,
       );
 
       showError("Login successful.", isError: false);
       clearFields();
       Get.offAll(() => HomeView());
     } on FirebaseAuthException catch (e) {
+      final userEmail = email.text.trim().toLowerCase();
+
       if (e.code == "invalid-credential" || e.code == "wrong-password") {
-        showError("Wrong password or click on Forgot Password.");
-      } else if (e.code == "user-not-found") {
-        showError("You are new here, try to register.");
+        try {
+          final emailCheck = await firestore
+              .collection("users")
+              .where("email", isEqualTo: userEmail)
+              .limit(1)
+              .get();
+
+          if (emailCheck.docs.isNotEmpty) {
+            showError("Wrong password or click on Forgot Password.");
+          } else {
+            showError("New here? Click on Register to create account.");
+          }
+        } catch (firestoreError) {
+          showError("Unable to check account. Try again.");
+        }
       } else if (e.code == "invalid-email") {
         showError("Please enter a valid email address.");
       } else if (e.code == "user-disabled") {
@@ -50,6 +72,8 @@ class AuthController extends GetxController {
       } else {
         showError("Login failed. Please try again.");
       }
+    } catch (e) {
+      showError("Something went wrong.");
     } finally {
       isLoading.value = false;
     }

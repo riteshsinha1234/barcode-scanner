@@ -33,7 +33,7 @@ class MultiScanView extends StatelessWidget {
                   children: [
                     MobileScanner(
                       controller: controller.cameraController,
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                       onDetect: (capture) {
                         final barcode = capture.barcodes.first.rawValue;
 
@@ -73,8 +73,7 @@ class MultiScanView extends StatelessWidget {
 
             gapH(15),
 
-            const Divider(thickness: 1),
-
+            // const Divider(thickness: 5, color: gry20per,border),
             gapH(10),
 
             Expanded(

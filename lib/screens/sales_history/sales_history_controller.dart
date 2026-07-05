@@ -16,15 +16,12 @@ class SalesHistoryController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-
     salesBox = Hive.box<SalesModel>('sales');
-
     loadSales();
   }
 
   void loadSales() {
     salesList.value = salesBox.values.toList().reversed.toList();
-
     filteredSalesList.value = List.from(salesList);
   }
 
@@ -39,11 +36,11 @@ class SalesHistoryController extends GetxController {
     }).toList();
   }
 
-  int getTotalSales() {
-    int total = 0;
+  double getTotalSales() {
+    double total = 0;
 
     for (final sale in salesList) {
-      total += sale.totalAmount as int;
+      total += sale.totalAmount;
     }
 
     return total;
@@ -56,7 +53,6 @@ class SalesHistoryController extends GetxController {
 
     if (hiveIndex != -1) {
       salesBox.deleteAt(hiveIndex);
-
       loadSales();
 
       Get.snackbar(

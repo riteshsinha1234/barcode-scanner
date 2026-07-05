@@ -27,7 +27,7 @@ class RegisterView extends StatelessWidget {
               ),
               gapH(50),
               customNmEmlField(
-                "Full Name",
+                "Store Name",
                 double.infinity,
                 15,
                 (value) {},

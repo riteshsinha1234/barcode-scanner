@@ -47,6 +47,7 @@ class MultiScanController extends GetxController {
 
       final cleanCode = cleanBarcode(scannedCode);
 
+      // ignore: avoid_print
       print("SCANNED CODE: $cleanCode");
 
       final doc = await firestore.collection("products").doc(cleanCode).get();
