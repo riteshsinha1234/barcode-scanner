@@ -552,7 +552,7 @@ void showError(String msg, {bool isError = true}) {
     toastLength: Toast.LENGTH_SHORT,
     gravity: ToastGravity.CENTER,
     timeInSecForIosWeb: 2,
-    backgroundColor: isError ? laserRed : grn,
+    backgroundColor: isError ? laserRed : iconTeal,
     textColor: white,
     fontSize: 14.0,
   );

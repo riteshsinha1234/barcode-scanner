@@ -191,10 +191,14 @@ class MultiScanView extends StatelessWidget {
                 hasProducts ? grn : gry99,
                 white,
                 40,
-                () {
+                () async {
                   if (!hasProducts) return;
 
-                  Get.to(() => BillView());
+                  await controller.stopScanner();
+
+                  await Get.to(() => BillView());
+
+                  await controller.startScanner();
                 },
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
