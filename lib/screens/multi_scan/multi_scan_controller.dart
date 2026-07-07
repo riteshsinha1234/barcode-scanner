@@ -84,6 +84,14 @@ class MultiScanController extends GetxController {
     isTorchOn.value = !isTorchOn.value;
   }
 
+  Future<void> stopScanner() async {
+    await cameraController.stop();
+  }
+
+  Future<void> startScanner() async {
+    await cameraController.start();
+  }
+
   void addProduct(ProductModel product) {
     final index = cartItems.indexWhere(
       (item) => item.product.barcode == product.barcode,
